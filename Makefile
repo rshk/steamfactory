@@ -1,6 +1,6 @@
 ## Standard makefile for Python package
 
-BASE_PACKAGE = mypackagename
+BASE_PACKAGE = steamfactory
 
 .PHONY: all package install install_dev test docs publish_docs
 
@@ -11,8 +11,6 @@ help:
 	@echo "----------------------------------------"
 	@echo "pypi_upload - build source distribution and upload to pypi"
 	@echo "pypi_register - register proejct on pypi"
-	@echo "package - build sdist and py2/py3 wheels"
-	@echo "twine_upload - upload via twine"
 	@echo
 	@echo "install - install project in production mode"
 	@echo "install_dev - install project in development mode"
@@ -27,17 +25,11 @@ pypi_register:
 	python setup.py register -r https://pypi.python.org/pypi
 
 pypi_upload:
-	python setup.py sdist upload -r https://pypi.python.org/pypi
-
-package:
-	python3 setup.py sdist bdist_wheel
-	python2 setup.py bdist_wheel
+	python3 setup.py sdist bdist_wheel upload -r https://pypi.python.org/pypi
+	python2 setup.py bdist_wheel upload -r https://pypi.python.org/pypi
 
 clean_package:
-	rm -f dist/*
-
-twine_upload:
-	twine upload dist/*
+	rm -rf ./build ./dist
 
 install:
 	python setup.py install
